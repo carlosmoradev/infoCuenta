@@ -12,13 +12,30 @@
 # Shell               :   /bin/XXX
 # Directorio          :   /home/xxx
 
+
+validaInfo() {
+    getent passwd $CUENTA |cut -d ":" -f $1
+}
+
+formatoInfo() {
+        echo
+        echo "Nombre de usuario : $(validaInfo 1)"
+        echo "ID del usuario    : $(validaInfo 3)"
+        echo "ID del Grupo      : $(validaInfo 4)"
+        echo "Shell             : $(validaInfo 7)"
+        echo "Directorio        : $(validaInfo 6)"
+        echo
+}
+
+echo
 echo "Ingrese el nombre de la cuenta"
+echo
 
 read CUENTA
 
 if getent passwd $CUENTA >/dev/null 2>&1;
     then
-        echo "Usuario existe"
+        formatoInfo
     else
         echo "Usuario no existe"
 fi
